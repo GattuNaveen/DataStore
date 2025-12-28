@@ -1,0 +1,59 @@
+Businessunit:
+  catalog: datastore
+  schema: silver
+  tableName: Businessunit
+  path: abfss://silver@datastorestorageaccount.dfs.core.windows.net/Businessunit
+  table_type: External
+  hashColumns:
+    - ExternalId
+
+User:
+  catalog: datastore
+  schema: silver
+  tableName: User
+  path: abfss://silver@datastorestorageaccount.dfs.core.windows.net/User
+  table_type: External
+  hashColumns:
+    - ExternalId
+    - UserName
+    - LegalName
+    - Email
+    - JobTitle
+    - IsAgent
+    - BusinessunitId
+    - EmployeeDetails
+    - ManagerId
+
+Queue:
+  catalog: datastore
+  schema: silver
+  tableName: Queue
+  path: abfss://silver@datastorestorageaccount.dfs.core.windows.net/Queue
+  table_type: External
+  hashColumns:
+    - ExternalId
+    - QueueName
+    - BusinessunitId
+    
+
+Conversation:
+  catalog: datastore
+  schema: silver
+  tableName: Conversation
+  path: abfss://silver@datastorestorageaccount.dfs.core.windows.net/Conversation
+  table_type: External
+
+AgentInteractionState:
+  catalog: datastore
+  schema: silver
+  tableName: AgentInteractionState
+  path: abfss://silver@datastorestorageaccount.dfs.core.windows.net/AgentInteractionState
+  table_type: External
+
+QueueInteractionState:
+  catalog: datastore
+  schema: silver
+  tableName: QueueInteractionState
+  path: abfss://silver@datastorestorageaccount.dfs.core.windows.net/QueueInteractionState
+  table_type: External
+

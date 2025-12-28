@@ -1,0 +1,42 @@
+Businessunit:
+  catalog: datastore
+  schema: bronze
+  tableName: Businessunit
+  path: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/Businessunit
+  table_type: External
+
+User:
+  catalog: datastore
+  schema: bronze
+  tableName: User
+  path: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/User
+  table_type: External
+
+Queue:
+  catalog: datastore
+  schema: bronze
+  tableName: Queue
+  path: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/Queue
+  table_type: External
+
+Conversation:
+  catalog: datastore
+  schema: bronze
+  tableName: Conversation
+  path: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/Conversation
+  table_type: External
+
+AgentInteractionState:
+  catalog: datastore
+  schema: bronze
+  tableName: AgentInteractionState
+  path: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/AgentInteractionState
+  table_type: External
+
+QueueInteractionState:
+  catalog: datastore
+  schema: bronze
+  tableName: QueueInteractionState
+  path: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/QueueInteractionState
+  table_type: External
+

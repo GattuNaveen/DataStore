@@ -1,0 +1,5 @@
+paths:
+  source: abfss://source@datastorestorageaccount.dfs.core.windows.net/
+  bronze: abfss://bronze@datastorestorageaccount.dfs.core.windows.net/
+  silver: abfss://silver@datastorestorageaccount.dfs.core.windows.net/
+  gold: abfss://gold@datastorestorageaccount.dfs.core.windows.net/
