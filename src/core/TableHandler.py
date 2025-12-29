@@ -1,3 +1,5 @@
+from pyspark.sql.functions import current_timestamp
+from delta.tables import DeltaTable
 class TableHandler:
 
     @classmethod
@@ -26,18 +28,14 @@ class TableHandler:
         source_df = source_df.alias("source")
         target_table = target_table.alias("target")
 
-        # Columns to update (exclude keys and explicitly excluded columns)
         update_cols = [
             c for c in source_df.columns
             if c not in key_columns and c not in exclude_columns
         ]
 
-        # Merge condition
         merge_key = " AND ".join(
             [f"target.{c} = source.{c}" for c in key_columns]
         )
-
-        # Update and insert mappings
         update_set = {c: f"source.{c}" for c in update_cols}
         insert_set = {c: f"source.{c}" for c in source_df.columns}
 
@@ -48,3 +46,41 @@ class TableHandler:
             .whenNotMatchedInsert(values=insert_set)
             .execute()
         )
+
+    @classmethod
+    def readWriteStream(cls, 
+        spark,
+        tableName: str,
+        source_path: str,
+        schema_location: str,
+        checkpoint_path: str,
+        file_type: str = "parquet",
+        schemaEvolutionMode: str = "addNewColumns",
+        useNotifications: bool = False,
+        inferColumnTypes: bool = False,
+        write_mode: str = "append",
+        transform_fn=None
+    ):
+        
+        df = (
+            spark.readStream
+            .format("cloudFiles")
+            .option("cloudFiles.format", file_type)
+            .option("cloudFiles.schemaLocation", schema_location)
+            .option("cloudFiles.schemaEvolutionMode", schemaEvolutionMode)
+            .option("cloudFiles.inferColumnTypes", str(inferColumnTypes).lower())
+            .load(source_path)
+        )
+        if transform_fn:
+            df = transform_fn(df)
+        query = (
+            df.writeStream
+            .format("delta")
+            .option("mergeSchema", "true")
+            .trigger(availableNow=True)
+            .option("checkpointLocation", checkpoint_path)
+            .outputMode(write_mode)
+            .toTable(tableName)
+        )
+        return query
+
